@@ -18,12 +18,12 @@ char	*get_next_line(int fd)
 	}
 	while (temp && temp[i] && temp[i] != '\n')
 		i++;
-	line = ft_substr(temp, 0, i);
+	line = ft_substr(temp, 0, i + 1);
 	if (!line)
 	{
 		free(temp);
 		return (NULL);
 	}
-	temp = ft_substr_free(temp, ft_strlen(line) + 1, ft_strlen(temp));
+	temp = ft_substr_free(temp, ft_strlen(line), ft_strlen(temp));
 	return (line);
 }

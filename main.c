@@ -1,5 +1,4 @@
 #include "get_next_line.h"
-#include <stdio.h>
 
 void	ft_putchar_fd(char c, int fd)
 {
@@ -110,7 +109,6 @@ int	main(int ac, char **av)
 		pouet = get_next_line(fd);
 		i++;
 	}
-	printf("\n");
 	free(pouet);
 	close(fd);
 	return (0);
