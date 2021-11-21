@@ -1,4 +1,5 @@
 #include "get_next_line_bonus.h"
+#include <stdio.h>
 
 void	ft_putchar_fd(char c, int fd)
 {
@@ -91,7 +92,7 @@ int	get_fd(char *entry)
 int	main(int ac, char **av)
 {
 	int		i = 0;
-	char	*pouet;
+	char	*pouet, *pouet2, *pouet3, *pouet4;
 	int		fd;
 	int		fd2;
 	int 	fd3;
@@ -102,17 +103,29 @@ int	main(int ac, char **av)
 	fd3 = get_fd(av[3]);
 	fd2 = get_fd(av[2]);
 	fd = get_fd(av[1]);
-	while (i < 20)
-	{
-		ft_putstr_fd(get_next_line(fd), 1);
-		ft_putstr_fd(get_next_line(fd2), 1);
-		ft_putstr_fd(get_next_line(fd3), 1);
-		ft_putstr_fd(get_next_line(fd4), 1);
-		i++;
-	}
 	pouet = get_next_line(fd);
-
+	pouet2 = get_next_line(fd2);
+	pouet3 = get_next_line(fd3);
+	pouet4 = get_next_line(fd4);
+	while (pouet || pouet2 || pouet3 || pouet4)
+	{
+		printf("%s%s%s%s", pouet, pouet2, pouet3, pouet4);
+		free(pouet);
+		free(pouet2);
+		free(pouet3);
+		free(pouet4);
+		pouet = get_next_line(fd);
+		pouet2 = get_next_line(fd2);
+		pouet3 = get_next_line(fd3);
+		pouet4 = get_next_line(fd4);
+	}
 	free(pouet);
+	free(pouet2);
+	free(pouet3);
+	free(pouet4);
 	close(fd);
+	close(fd2);
+	close(fd3);
+	close(fd4);
 	return (0);
 }

@@ -92,44 +92,29 @@ struct s_file	*ft_fd(struct s_file **pouet, int fd)
 	return (good_one);
 }
 
-/*char	*get_next_line(int fd)
-{
-	int				i;
-	char			*line;
-	char			buf[BUFFER_SIZE + 1];
-	static t_file	*pouet;
-
-	if (BUFFER_SIZE < 1)
-		return (NULL);
-	ft_bzero(buf, BUFFER_SIZE + 1);
-	i = 0;
-	while (!(contain_return(ft_fd(&pouet, fd)->content))
-		&& read(fd, buf, BUFFER_SIZE) > 0)
-	{
-		ft_fd(&pouet, fd)->content = ft_join(ft_fd(&pouet, fd)->content, buf);
-		if (!ft_fd(&pouet, fd)->content)
-			return (NULL);
-		ft_bzero(buf, BUFFER_SIZE + 1);
-	}
-	while (ft_fd(&pouet, fd)->content && ft_fd(&pouet, fd)->content[i]
-		&& ft_fd(&pouet, fd)->content[i] != '\n')
-		i++;
-	line = ft_substr(ft_fd(&pouet, fd)->content, 0, i + 1);
-	ft_keep_the_rest(&ft_fd(&pouet, fd)->content, i + 1);
-	if (!ft_fd(&pouet, fd)->content)
-		ft_gordon_freeman(&pouet, fd);
-	return (line);
-}*/
-
 char	*get_next_line(int fd)
 {
 	int				i;
 	char			*line;
-	char			**need;
 	char			buf[BUFFER_SIZE + 1];
-	static t_file	*pouet;
+	static t_file	*p;
 
-
-	i = contain_return(ft_fd(&pouet, fd));
-	if ()
+	line = ft_fd(&p, fd)->content;
+	i = contain_return(line);
+	if (line && line[i] == '\n')
+		return (ft_return_and_keep(&(ft_fd(&p, fd)->content), line, i));
+	i = 0;
+	ft_bzero(buf, BUFFER_SIZE + 1);
+	while (read(fd, buf, BUFFER_SIZE) > 0)
+	{
+		line = ft_strjoin_free(line, buf);
+		i = i + (contain_return(&line[i]));
+		if (line[i] == '\n')
+			return (ft_return_and_keep(&(ft_fd(&p, fd)->content), line, i));
+		ft_bzero(buf, BUFFER_SIZE + 1);
+	}
+	ft_fd(&p, fd)->content = NULL;
+	if (!line)
+		ft_gordon_freeman(&p, fd);
+	return (line);
 }

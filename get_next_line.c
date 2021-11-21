@@ -33,8 +33,7 @@ char	*ft_return_and_keep(char **temp, char *line, int n)
 	char	*str;
 
 	str = ft_substr(line, 0, n + 1);
-	*temp = ft_substr(line, n + 1, ft_strlen(&line[n + 1]));
-	free(line);
+	*temp = ft_substr_free(line, n + 1, ft_strlen(&line[n + 1]));
 	return (str);
 }
 

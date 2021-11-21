@@ -49,10 +49,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (s == NULL)
 		return (NULL);
 	if (start >= ft_strlen(s))
-	{
-		secure = 0;
-		start = ft_strlen(s);
-	}
+		return (NULL);
 	if (len > ft_strlen(s) - start)
 		len = ft_strlen(s) - start;
 	sub = malloc(sizeof(char) * secure * len + 1);
@@ -67,26 +64,17 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (sub);
 }
 
-void	ft_keep_the_rest(char **content, size_t start)
+char	*ft_return_and_keep(char **temp, char *line, int n)
 {
-	int		i;
-	char	*temp;
+	char	*str;
 
-	i = 0;
-	if (!(*content) || start >= ft_strlen(*content))
-	{
-		free(*content);
-		*content = NULL;
-	}
-	else
-	{
-		temp = *content;
-		*content = ft_substr(*content, start, ft_strlen(*content));
-		free(temp);
-	}
+	str = ft_substr(line, 0, n + 1);
+	*temp = ft_substr(line, n + 1, ft_strlen(&line[n + 1]));
+	free(line);
+	return (str);
 }
 
-char	*ft_join(char *s1, char *s2)
+char	*ft_strjoin_free(char *s1, char *s2)
 {
 	size_t	l1;
 	size_t	l2;

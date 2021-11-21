@@ -24,7 +24,8 @@ typedef struct s_file
 	struct s_file	*next;
 }	t_file;
 
-void			ft_keep_the_rest(char **content, size_t start);
+char			*ft_return_and_keep(char **temp, char *line, int n);
+struct s_file	*ft_fdnew(int fd);
 void			ft_gordon_freeman(struct s_file **pouet, int fd);
 struct s_file	*ft_fd(struct s_file **pouet, int fd);
 void			ft_bzero(void *s, size_t n);
@@ -32,6 +33,6 @@ int				contain_return(char *s);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
 char			*get_next_line(int fd);
 size_t			ft_strlen(const char *str);
-char			*ft_join(char *s1, char *s2);
+char			*ft_strjoin_free(char *s1, char *s2);
 
 #endif
