@@ -6,7 +6,7 @@
 /*   By: njaros <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 10:49:27 by njaros            #+#    #+#             */
-/*   Updated: 2021/11/20 17:17:55 by njaros           ###   ########lyon.fr   */
+/*   Updated: 2021/11/21 15:24:48 by njaros           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,16 @@ int	contain_return(char *s)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	if (s)
 	{
-		while (s[i])
+		while (s[++i])
 		{
 			if (s[i] == '\n')
-				return (1);
-			i++;
+				return (i);
 		}
 	}
-	return (0);
+	return (i);
 }
 
 struct s_file	*ft_fdnew(int fd)
@@ -93,7 +92,7 @@ struct s_file	*ft_fd(struct s_file **pouet, int fd)
 	return (good_one);
 }
 
-char	*get_next_line(int fd)
+/*char	*get_next_line(int fd)
 {
 	int				i;
 	char			*line;
@@ -120,4 +119,17 @@ char	*get_next_line(int fd)
 	if (!ft_fd(&pouet, fd)->content)
 		ft_gordon_freeman(&pouet, fd);
 	return (line);
+}*/
+
+char	*get_next_line(int fd)
+{
+	int				i;
+	char			*line;
+	char			**need;
+	char			buf[BUFFER_SIZE + 1];
+	static t_file	*pouet;
+
+
+	i = contain_return(ft_fd(&pouet, fd));
+	if ()
 }
