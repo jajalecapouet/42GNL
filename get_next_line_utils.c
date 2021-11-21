@@ -1,18 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: njaros <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/20 10:42:16 by njaros            #+#    #+#             */
+/*   Updated: 2021/11/20 10:42:16 by njaros           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
-
-void	ft_bzero(void *s, size_t n)
-{
-	size_t	i;
-	char	*fill;
-
-	i = 0;
-	fill = s;
-	while (i < n)
-	{
-		fill[i] = '\0';
-		i++;
-	}
-}
 
 size_t	ft_strlen(const char *str)
 {
@@ -24,21 +22,6 @@ size_t	ft_strlen(const char *str)
 	while (str[i])
 		i++;
 	return (i);
-}
-
-int	contain_return(char *s)
-{
-	int i;
-
-	i = 0;
-	if (s)
-		while (s[i])
-		{
-			if (s[i] == '\n')
-				return (1);
-			i++;
-		}
-	return (0);
 }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
@@ -75,12 +58,12 @@ char	*ft_substr_free(char *s, unsigned int start, size_t len)
 	char	*sub;
 	size_t	i;
 
-	i = 0;
+	i = -1;
 	if (s == NULL)
 		return (NULL);
 	if (start >= ft_strlen(s))
 	{
-		free (s);
+		free(s);
 		return (NULL);
 	}
 	if (len > ft_strlen(s) - start)
@@ -88,17 +71,14 @@ char	*ft_substr_free(char *s, unsigned int start, size_t len)
 	sub = malloc(sizeof(char) * len + 1);
 	if (!sub)
 		return (NULL);
-	while ((i < len) && (s[start + i]))
-	{
+	while ((++i < len) && (s[start + i]))
 		sub[i] = s[start + i];
-		i++;
-	}
 	sub[i] = '\0';
 	free(s);
 	return (sub);
 }
 
-char	*ft_strjoin_free(char *s1, char *s2)
+char	*ft_strjoin_free(char *s1, char *s2, int del)
 {
 	size_t	l1;
 	size_t	l2;
@@ -107,23 +87,35 @@ char	*ft_strjoin_free(char *s1, char *s2)
 
 	if (s2 == NULL)
 		return (s1);
-	i = 0;
+	i = -1;
 	l1 = ft_strlen(s1);
 	l2 = ft_strlen(s2);
 	join = malloc(sizeof(char) * (l1 + l2) + 1);
 	if (!join)
 		return (NULL);
-	while (i < l1)
-	{
+	while (++i < l1)
 		join[i] = s1[i];
-		i++;
-	}
-	while (i < l1 + l2)
-	{
+	i--;
+	while (++i < l1 + l2)
 		join[i] = s2[i - l1];
+	join[i] = '\0';
+	if (del == 1)
+		free(s1);
+	if (del == 2)
+		free(s2);
+	return (join);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	size_t	i;
+	char	*fill;
+
+	i = 0;
+	fill = s;
+	while (i < n)
+	{
+		fill[i] = '\0';
 		i++;
 	}
-	join[i] = '\0';
-	free(s1);
-	return (join);
 }

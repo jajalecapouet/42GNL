@@ -1,4 +1,5 @@
 #include "get_next_line.h"
+#include <stdio.h>
 
 void	ft_putchar_fd(char c, int fd)
 {
@@ -90,7 +91,6 @@ int	get_fd(char *entry)
 
 int	main(int ac, char **av)
 {
-	int		i = 1;
 	char	*pouet;
 	int		fd;
 
@@ -99,15 +99,11 @@ int	main(int ac, char **av)
 	if (fd == 0)
 		write(1, "saisissez votre texte, le bouton entrée signifie \\n, la commande ctrl + d signifie le EOF\n", 92);
 	pouet = get_next_line(fd);
-	while (i < 10 && pouet)
+	while (pouet)
 	{
-		ft_putstr_fd("ligne ", 1);
-		ft_putnbr_fd(i, 1);
-		ft_putstr_fd(" : ", 1);
-		ft_putstr_fd(pouet, 1);
+		printf("%s", pouet);
 		free(pouet);
 		pouet = get_next_line(fd);
-		i++;
 	}
 	free(pouet);
 	close(fd);

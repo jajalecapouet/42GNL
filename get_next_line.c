@@ -1,4 +1,42 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: njaros <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/20 10:41:30 by njaros            #+#    #+#             */
+/*   Updated: 2021/11/20 10:41:30 by njaros           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
+
+int	contain_return(char *s)
+{
+	int	i;
+
+	i = -1;
+	if (s)
+	{
+		while (s[++i])
+		{
+			if (s[i] == '\n')
+				return (i);
+		}
+	}
+	return (i);
+}
+
+char	*ft_return_and_keep(char **temp, char *line, int n)
+{
+	char	*str;
+
+	str = ft_substr(line, 0, n + 1);
+	*temp = ft_substr(line, n + 1, ft_strlen(&line[n + 1]));
+	free(line);
+	return (str);
+}
 
 char	*get_next_line(int fd)
 {
@@ -6,24 +44,22 @@ char	*get_next_line(int fd)
 	char		*line;
 	char		buf[BUFFER_SIZE + 1];
 	static char	*temp;
-	
-	if (BUFFER_SIZE < 1 || BUFFER_SIZE > 8381999)
-	{
-		write(2, "TGV error\n", 10);
-		return (NULL);
-	}
-	ft_bzero(buf, BUFFER_SIZE + 1);
+
+	line = NULL;
+	i = (contain_return(temp));
+	if (temp && temp[i] == '\n')
+		return (ft_return_and_keep(&temp, temp, i));
+	line = ft_strjoin_free(line, temp, 2);
 	i = 0;
-	while (!(contain_return(temp)) && read(fd, buf, BUFFER_SIZE) > 0)
+	ft_bzero(buf, BUFFER_SIZE + 1);
+	while (read(fd, buf, BUFFER_SIZE) > 0)
 	{
-		temp = ft_strjoin_free(temp, buf);
-		if (!temp)
-			return (NULL);
+		line = ft_strjoin_free(line, buf, 1);
+		i = i + (contain_return(&line[i]));
+		if (line[i] == '\n')
+			return (ft_return_and_keep(&temp, line, i));
 		ft_bzero(buf, BUFFER_SIZE + 1);
 	}
-	while (temp && temp[i] && temp[i] != '\n')
-		i++;
-	line = ft_substr(temp, 0, i + 1);
-	temp = ft_substr_free(temp, ft_strlen(line), ft_strlen(temp));
+	temp = NULL;
 	return (line);
 }
